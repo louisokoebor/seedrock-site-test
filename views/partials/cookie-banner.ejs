@@ -1,0 +1,18 @@
+<% if (!cookieConsent) { %>
+  <div class="cookie-banner text-size-large">
+    <p>
+      We use cookies to improve your experience. You can accept or reject
+      non-essential cookies.
+    </p>
+
+    <div class="cookie-banner__buttons">
+      <form action="/cookies/accept" method="post">
+        <button class="button-2" type="submit">Accept</button>
+      </form>
+
+      <form action="/cookies/reject" method="post">
+        <button class="button-2 is-secondary" type="submit">Reject</button>
+      </form>
+    </div>
+  </div>
+<% } %>

@@ -3857,6 +3857,60 @@ blockquote {
   display: flex;
 }
 
+/* Cookie banner wrapper */
+.cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  padding: 14px 20px;
+  box-sizing: border-box;
+
+  background-color: var(--_apps---colors--background);         /* dark backdrop */
+  color: var(--_apps---colors--primary);                   /* text colour */
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.2);
+  font-size: 14px;
+}
+
+/* Text inside banner */
+.cookie-banner p {
+  margin: 0;
+  max-width: 600px;
+  line-height: 1.4;
+}
+
+/* Button group layout */
+.cookie-banner__buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Remove default form spacing */
+.cookie-banner__buttons form {
+  margin: 0;
+}
+
+/* Let your existing button classes handle look & feel */
+.cookie-banner__buttons button {
+  /* no visual styles here so .button-primary, etc. win */
+  cursor: pointer;
+}
+
+/* Mobile tweaks */
+@media (max-width: 767px) {
+
+}
+
 
 @media screen and (max-width: 1092px) {
   .heading-area {
@@ -5308,6 +5362,8 @@ blockquote {
   .challenges-body {
     text-align: center;
   }
+
+  
 }
 
 @media screen and (max-width: 479px) {
@@ -5978,6 +6034,21 @@ blockquote {
 
   .div-block-38 {
     color: var(--primitives--semantics--brand-primary);
+  }
+    .cookie-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 14px 16px;
+  }
+
+  .cookie-banner p {
+    max-width: 100%;
+  }
+
+  .cookie-banner__buttons {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
   }
 }
 

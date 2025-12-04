@@ -2,6 +2,7 @@ import express from "express";
 import { createClient } from "contentful";
 import dotenv from "dotenv";
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
+import cookieParser from "cookie-parser"; // 
 
 
 dotenv.config();
@@ -11,6 +12,10 @@ const port = process.env.PORT || 3000;
 
 // Tell Express we’re using EJS templates in the "views" folder
 app.set("view engine", "ejs");
+
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // Serve your Webflow export (css, js, images, other html) from /public
 app.use(express.static("public"));
@@ -26,6 +31,33 @@ app.locals.renderRichText = function (doc) {
   if (!doc) return '';
   return documentToHtmlString(doc);
 };
+
+// – expose cookieConsent to all views
+app.use((req, res, next) => {
+  res.locals.cookieConsent = req.cookies.cookieConsent || null;
+  next();
+});
+
+//– cookie consent routes
+app.post("/cookies/accept", (req, res) => {
+  res.cookie("cookieConsent", "accepted", {
+    maxAge: 365 * 24 * 60 * 60 * 1000, // 1 year
+    httpOnly: false, // set true if you don't need JS to read it
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+  });
+  res.redirect(req.get("referer") || "/");
+});
+
+app.post("/cookies/reject", (req, res) => {
+  res.cookie("cookieConsent", "rejected", {
+    maxAge: 365 * 24 * 60 * 60 * 1000,
+    httpOnly: false,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+  });
+  res.redirect(req.get("referer") || "/");
+});
 
 app.get("/", async (req, res) => {
   try {
